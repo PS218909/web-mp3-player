@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MP3 Player About</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <nav>
+        <div class="left">
+            Music Player
+        </div>
+        <div>
+            <form action="/about" method="post">
+                <input type="text" id="search" name="spotdl" placeholder="Paste Spotify Link">
+                <input type="submit" id="submit">
+            </form>
+        </div>
+        <div class="right">
+            <a href="/home">Home</a>
+            <a href="/about">About</a>
+        </div>
+    </nav>
+    <h1>My MP3 Player</h1>
+    <h3>- By Piyush Somani</h3>
+    <a href="https://github.com/PS218909">github.com</a>
+
+    <h1>About This Project</h1>
+    <!-- Got motivated to do this from a twitter post who offered a intership job. In that thread i saw people gave their projects and their intrest. -->
+    <pre>Started working for this project today(7 April 2023)
+    Using Python Flask to do it.
+    Done Flask Part like just to upload the music and play in browser.
+    Decided to complete the major JS Part and small part of CSS
+8 April 2023
+    Getting rid of Default Controller (It looks boring)
+    Added Features Like Pause Play (yeah this have to be done if we are customizing our controller)
+    Continue Playing on changing pages
+    Added Mute and Unmute
+    Added Play Next
+    Done a small amount of css to make it look better
+    Added Keyboard Events such as 
+        Space to Trigger Play and Pause
+        D to Play Next
+        R to restart a song
+        ArrowRight to skip 10sec of Music
+        ArrowLeft to go back 10sec of Music
+    Added Queue Feature
+    Added A really good feature of downloading songs from spotify
+    Added About Page
+    Changing Songs From About Page
+    Added Show Playlist Option
+    Added Currently Playing Song in Show Playlist
+15 April 2023
+    Create Song Directory If Not Available
+</pre>
+<div class="song_list hidden">
+    <table>
+        {% for song in songs %}
+        {% if song != play_song %}
+            <tr class="music">
+                <td><i class="material-icons">music_note</i><a href="/songs/{{song}}">{{song}}</a></td>
+                <td><i onclick="add_to_queue('/songs/{{song}}')" class="material-icons pointer">playlist_add</i></td>
+            </tr>
+        {% else %}
+            <tr class="playing">
+                <td><i class="material-icons">music_note</i><a href="/songs/{{song}}">{{song}}</a></td>
+                <td><i onclick="add_to_queue('/songs/{{song}}')" class="material-icons poniter">playlist_add</i></td>
+            </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+</div>
+<div class="queue hidden f_hidden" id="queue">
+    <table class="queue_table"></table>
+</div>
+<div class="bottom">
+    <audio autoplay loop src="/songs/{{play_song}}" id="audio"></audio>
+    <div class="controls">
+        <div class="info">Playing: <b>{{play_song}}</b></div>
+        <div class="play" id="play_pause"><i class="material-icons">play_arrow</i></div>
+        <div class="progress">
+            <input type="range" value="0" min="0" id="range">
+        </div>
+        <div class="mute" id="mute"><i class="material-icons">volume_up</i></div>
+        <div class="play_next" id="play_next"><i class="material-icons">skip_next</i></div>
+        <div class="playlist_info" id="playlist_info" onclick="return false;"><i class="material-icons">expand_less</i></div>
+        <div class="progress_info" id="pi"></div>
+    </div>
+</div>
+<script src="/static/index.js"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web MP3 Player</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="left">
+            Music Player
+        </div>
+        <div>
+            <form action="/home" method="post">
+                <input type="text" id="search" name="spotdl" placeholder="Paste Spotify Link">
+                <input type="submit" id="submit">
+            </form>
+        </div>
+        <div class="right">
+            <a href="/home">Home</a>
+            <a href="/about">About</a>
+        </div>
+    </nav>
+    <h2>Song List</h2>
+    <div class="song_list">
+        <table>
+            {% for song in songs %}
+            {% if song != play_song %}
+                <tr class="music">
+                    <td onclick="play('/songs/{{song}}')"><i class="material-icons">music_note</i><a href="/songs/{{song}}" onclick="return false;">{{song}}</a></td>
+                    <td><i onclick="add_to_queue('/songs/{{song}}')" class="material-icons pointer">playlist_add</i></td>
+                </tr>
+            {% else %}
+                <tr class="playing">
+                    <td onclick="play('/songs/{{song}}')"><i class="material-icons">music_note</i><a href="/songs/{{song}}">{{song}}</a></td>
+                    <td><i onclick="add_to_queue('/songs/{{song}}')" class="material-icons poniter">playlist_add</i></td>
+                </tr>
+            {% endif %}
+            {% endfor %}
+        </table>
+    </div>
+    <div class="queue hidden" id="queue">
+        <table class="queue_table"></table>
+    </div>
+    <div class="bottom">
+        <audio autoplay loop src="/songs/{{play_song}}" id="audio"></audio>
+        <div class="controls">
+            <div class="info">Playing: <b>{{play_song}}</b></div>
+            <div class="play" id="play_pause"><i class="material-icons">play_arrow</i></div>
+            <div class="progress">
+                <input type="range" value="0" min="0" id="range">
+            </div>
+            <div class="mute" id="mute"><i class="material-icons">volume_up</i></div>
+            <div class="play_next" id="play_next"><i class="material-icons">skip_next</i></div>
+            <div class="playlist_info" id="playlist_info"><i class="material-icons">expand_less</i></div>
+            <div class="progress_info" id="pi"></div>
+        </div>
+    </div>
+    <script src="/static/index.js"></script>
+</body>
+
+</html>
